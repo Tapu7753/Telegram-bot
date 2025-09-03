@@ -7,7 +7,9 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, "✅ Bot chaloo ho gaya! Aapne /start use kiya.")
+    bot.reply_to(message, "✅ Hello 👋, My test bot
+
+I can store private files in Specified Channel and other users can access it from special link..")
 
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
