@@ -1,17 +1,16 @@
-# Telegram-botimport import os
 import telebot
 
-# Token Railway ke environment variable se aayega
-TOKEN = os.getenv("TOKEN")
+# Aapka bot token
+TOKEN = "8054738355:AAHhEdV0n8fIZ4X_keT21-zEzqAAnfqZIak"
 
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, "Yes! 🚀 Bot is live on Railway!")
+    bot.reply_to(message, "✅ Bot chaloo ho gaya! Aapne /start use kiya.")
 
-@bot.message_handler(func=lambda m: True)
+@bot.message_handler(func=lambda message: True)
 def echo_all(message):
-    bot.reply_to(message, message.text)
+    bot.reply_to(message, "Aapne bola: " + (message.text or ""))
 
-bot.polling()
+bot.infinity_polling()
