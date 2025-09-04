@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 TOKEN = "7565526262:AAFFpo9RtjiFN5LWmKkGkLSMTMCqF1EGXtU"
-ADMINS = [@Tapuugk]  # Apna Telegram user ID daalo
+ADMINS = [7681308594]  # Apna Telegram user ID]  # Apna Telegram user ID daalo
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("✅ Bot chal raha hai!")
