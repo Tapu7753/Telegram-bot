@@ -1,18 +1,38 @@
-import telebot
+from telegram import Update
+from telegram.ext import Application, CommandHandler, ContextTypes
 
-# Aapka bot token
-TOKEN = "8054738355:AAHhEdV0n8fIZ4X_keT21-zEzqAAnfqZIak"
+TOKEN = "7565526262:AAFFpo9RtjiFN5LWmKkGkLSMTMCqF1EGXtU"
+ADMINS = [@Tapuugk]  # Apna Telegram user ID daalo
 
-bot = telebot.TeleBot(TOKEN)
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("✅ Bot chal raha hai!")
 
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    bot.reply_to(message, "✅ Hello 👋, My test bot
+async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.from_user.id not in ADMINS:
+        await update.message.reply_text("❌ Sirf admin use kar sakta hai")
+        return
+    if not update.message.reply_to_message:
+        await update.message.reply_text("Reply karke /ban likho")
+        return
+    user_id = update.message.reply_to_message.from_user.id
+    await update.effective_chat.ban_member(user_id)
+    await update.message.reply_text("🚫 User banned!")
 
-I can store private files in Specified Channel and other users can access it from special link..")
+async def unban(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.from_user.id not in ADMINS:
+        await update.message.reply_text("❌ Sirf admin use kar sakta hai")
+        return
+    if len(context.args) == 0:
+        await update.message.reply_text("Usage: /unban <user_id>")
+        return
+    user_id = int(context.args[0])
+    await update.effective_chat.unban_member(user_id)
+    await update.message.reply_text("✅ User unbanned!")
 
-@bot.message_handler(func=lambda message: True)
-def echo_all(message):
-    bot.reply_to(message, "Aapne bola: " + (message.text or ""))
+app = Application.builder().token(TOKEN).build()
+app.add_handler(CommandHandler("start", start))
+app.add_handler(CommandHandler("ban", ban))
+app.add_handler(CommandHandler("unban", unban))
 
-bot.infinity_polling()
+print("Bot chal raha hai...")
+app.run_polling()
